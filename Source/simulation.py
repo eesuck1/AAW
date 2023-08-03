@@ -65,6 +65,9 @@ class AAW:
         if self._delay_counter_ % 10 == 0:
             self.update_target_prediction()
 
+        if self._delay_counter_ % 1000 == 0:
+            self._model_.train()
+
         self.update_planes()
         self.update_bullets()
 
@@ -111,15 +114,13 @@ class AAW:
     def handle_collision(self, collision: int) -> None:
         plane = self._planes_[collision]
         if plane.get_color() == (140, 0, 0):  # and not (400 < plane.get_coordinates()[0] < 800):
-            mouse_x, mouse_y = self._positions_.get("mouse")
-            plane_x, plane_y = self._positions_.get("plane")[collision]
-            with open("labels.txt", "a") as file:
-                file.write(f'{mouse_x}, {mouse_y}, {plane_x}, {plane_y}, {plane.get_direction()}\n')
+            # mouse_x, mouse_y = self._positions_.get("mouse")
+            # plane_x, plane_y = self._positions_.get("plane")[collision]
+            # with open("labels.txt", "a") as file:
+            #     file.write(f'{mouse_x}, {mouse_y}, {plane_x}, {plane_y}, {plane.get_direction()}\n')
 
             self._planes_.pop(collision)
             self._bullets_.clear()
-            # if self._delay_counter_ % 1000 == 0:
-            #     self._model_.train()
 
     def spawn_planes(self) -> None:
         if len(self._planes_) <= 10:
