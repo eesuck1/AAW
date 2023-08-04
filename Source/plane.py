@@ -2,7 +2,7 @@ import random
 
 import pygame
 
-from Source.constants import SIZE, PLANE_SIZE, PLANE_SPEED
+from Source.constants import SIZE, PLANE_SIZE, PLANE_SPEED, PLANE_IMAGE
 
 
 class Plane:
@@ -13,6 +13,8 @@ class Plane:
 
         self._direction_ = random.choice([-2, -1.5, -1, 1, 1.5, 2])
         self._momentum_ = (PLANE_SPEED * self._direction_, 0)
+
+        self._image_ = PLANE_IMAGE if self._direction_ < 0 else pygame.transform.flip(PLANE_IMAGE, True, False)
 
     def move(self) -> None:
         self._rect_.x += self._momentum_[0]
@@ -32,3 +34,6 @@ class Plane:
 
     def get_direction(self) -> float:
         return self._direction_
+
+    def get_image(self) -> pygame.Surface:
+        return self._image_

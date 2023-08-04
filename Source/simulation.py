@@ -4,7 +4,7 @@ from typing import Any, List, Tuple
 import numpy.random
 import pygame
 
-from Source.constants import SIZE, FPS, BACKGROUND_COLOR, PLANE_SIZE
+from Source.constants import SIZE, FPS, BACKGROUND_COLOR, PLANE_SIZE, BACKGROUND_IMAGE
 from Source.gun import Gun
 from Source.model import Model
 from Source.plane import Plane
@@ -52,7 +52,7 @@ class AAW:
             self.update_game()
 
     def update_game(self) -> None:
-        self._screen_.fill(BACKGROUND_COLOR)
+        self._screen_.blit(BACKGROUND_IMAGE, (0, 0))
         self.draw_gun()
 
         self.spawn_planes()
@@ -94,7 +94,7 @@ class AAW:
                 self._planes_.remove(plane)
 
     def draw_plane(self, plane: Plane) -> None:
-        pygame.draw.rect(self._screen_, plane.get_color(), plane.get_rect())
+        self._screen_.blit(plane.get_image(), plane.get_coordinates())
 
     def update_bullets(self) -> None:
         for bullet in self._bullets_:
@@ -123,7 +123,7 @@ class AAW:
             self._bullets_.clear()
 
     def spawn_planes(self) -> None:
-        if len(self._planes_) <= 10:
+        if len(self._planes_) < 1:
             self._planes_.append(Plane())
 
     def get_planes_coordinates(self) -> List[Tuple[int, int]]:
